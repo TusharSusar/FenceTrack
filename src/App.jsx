@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import logo from './assets/logo.png'
+import React, { useState, useEffect, use } from "react";
+import logo from "./assets/logo.png";
 import {
   MapPin,
   Shield,
@@ -21,6 +21,7 @@ import {
   Trash2,
   Hamburger,
   Menu,
+  XIcon,
 } from "lucide-react";
 import {
   LineChart,
@@ -204,6 +205,27 @@ const InfoTooltip = ({ children, content }) => {
   );
 };
 
+const InfoTooltipRes = ({ children, content }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  return (
+    <div className="sm:hidden block">
+      <div
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        {children}
+      </div>
+      {showTooltip && (
+        <div className="absolute z-50 px-3 py-2 text-sm bg-gray-800 text-white rounded-lg shadow-lg -top-12 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+          {content}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // Enhanced Map Component with Coordinates Display
 const MapComponent = ({
   devices,
@@ -216,7 +238,7 @@ const MapComponent = ({
   const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 });
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-blue-50 to-green-50 rounded-lg overflow-hidden border">
+    <div className="relative w-full h-full bg-gradient-to-br from-blue-50 to-green-50 overflow-hidden">
       {/* Coordinate Display */}
       {showCoordinates && (
         <div className="absolute top-4 left-4 bg-white bg-opacity-95 backdrop-blur-sm p-3 rounded-lg shadow-lg z-10 min-w-48">
@@ -562,14 +584,14 @@ const HistorySection = ({
   );
 };
 
-const responsiveSidebar = () => {
-  const [sidebaractive, setresSidebar] = useState(false)
-  return(
-    <div className="modal w-[90%] h-[50vh] bg-amber-100">
-      <h1 className="text-black">Sidebar Under Construction</h1>
-    </div>
-  )
-}
+// const responsiveSidebar = () => {
+//   const [sidebaractive, setresSidebar] = useState(false)
+//   return(
+//     <div className="modal w-[90%] h-[50vh] bg-amber-100">
+//       <h1 className="text-black">Sidebar Under Construction</h1>
+//     </div>
+//   )
+// }
 
 // Main Dashboard Component
 const SmartGPSDashboard = () => {
@@ -583,6 +605,7 @@ const SmartGPSDashboard = () => {
   const [devices, setDevices] = useState(mockDevices);
   const [alerts, setAlerts] = useState(mockAlerts);
   const [deviceHistory, setDeviceHistory] = useState(initialHistory);
+  const [sidebarActive, setSidebarActive] = useState(false);
 
   // Demo mode effect - updates device positions and history
   useEffect(() => {
@@ -670,6 +693,37 @@ const SmartGPSDashboard = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Resposive Sidebar */}
+      {sidebarActive && (
+        <div className="resSidebar fixed sm:hidden w-full h-dvh z-50 pt-8 bg-white/90">
+          <div className="sidebar-content flex flex-col items-end">
+            <span className="mb-4 px-4 cursor-pointer" onClick={() => setSidebarActive(false)}>
+              <XIcon size={30} />
+            </span>
+            {sidebarItems.map((item) => (
+              <div key={item.id} className="w-full">
+                <InfoTooltipRes
+                  content={`Access ${item.label.toLowerCase()} features and settings`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab(item.id)}
+                    className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-50 cursor-pointer transition-colors ${
+                      activeTab === item.id
+                        ? "bg-blue-50 text-blue-600 border-r-2 border-blue-600"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    <item.icon className="w-5 h-5 mr-3" />
+                    {item.label}
+                  </button>
+                </InfoTooltipRes>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Sidebar */}
       <div className="hidden sm:block sm:w-64 bg-white shadow-lg">
         <div className="p-4 border-b">
@@ -727,7 +781,12 @@ const SmartGPSDashboard = () => {
         {/* Header */}
         <header className="bg-white shadow-sm border-b px-6 py-4">
           <div className="flex justify-between items-center">
-            <span className="inline sm:hidden"><Menu/></span>
+            <span
+              className="inline sm:hidden"
+              onClick={() => setSidebarActive(!sidebarActive)}
+            >
+              <Menu />
+            </span>
             <div className="header-txt flex grow items-center justify-around sm:grow-0 sm:space-x-4">
               <h2 className="text-xl font-semibold text-gray-800 capitalize">
                 {activeTab}
@@ -761,7 +820,9 @@ const SmartGPSDashboard = () => {
                   ) : (
                     <Play className="w-4 h-4 sm:mr-2" />
                   )}
-                  <span className="hidden sm:inline">{isTracking ? "Stop" : "Start"} Tracking</span>
+                  <span className="hidden sm:inline">
+                    {isTracking ? "Stop" : "Start"} Tracking
+                  </span>
                 </button>
               </InfoTooltip>
 

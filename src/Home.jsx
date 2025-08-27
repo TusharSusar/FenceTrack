@@ -286,7 +286,7 @@ const HeroSection = () => {
 
 // Features Section
 const FeaturesSection = () => {
-  const [ref, isInView] = useInView(0.2);
+  const [ref, isInView] = useInView(0.1);
 
   const features = [
     {
@@ -382,7 +382,7 @@ const FeaturesSection = () => {
 
 // How It Works Section
 const HowItWorksSection = () => {
-  const [ref, isInView] = useInView(0.2);
+  const [ref, isInView] = useInView(0.1);
 
   const steps = [
     {
@@ -476,7 +476,7 @@ const HowItWorksSection = () => {
 
 // // Testimonials Section
 // const TestimonialsSection = () => {
-//   const [ref, isInView] = useInView(0.2);
+//   const [ref, isInView] = useInView(0.1);
 
 //   const testimonials = [
 //     {
@@ -801,7 +801,7 @@ const TestimonialsSection = () => {
 };
 
 const PricingSection = () => {
-  const [ref, isInView] = useInView(0.2);
+  const [ref, isInView] = useInView(0.1);
 
   const plans = [
     {
@@ -925,7 +925,7 @@ const PricingSection = () => {
 
 // Contact Section
 const ContactSection = () => {
-  const [ref, isInView] = useInView(0.2);
+  const [ref, isInView] = useInView(0.1);
 
   return (
     <section ref={ref} className="py-20 bg-gray-50" id="contact">

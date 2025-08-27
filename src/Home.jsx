@@ -19,6 +19,7 @@ import {
 // import logo from "./assets/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LoginContext } from "./context/LoginContext";
+import Footer from "./components/Footer";
 
 // Typewriter Effect Hook
 const useTypewriter = (text, speed = 100) => {
@@ -62,7 +63,6 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
 
-
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -105,7 +105,7 @@ const Navigation = () => {
               </a>
             ))}
             <NavLink
-              to={`${isLoggedIn ? '/dashboard' : '/login'}`}
+              to={`${isLoggedIn ? "/dashboard" : "/login"}`}
               className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors"
             >
               Dashboard
@@ -141,9 +141,11 @@ const Navigation = () => {
               </a>
             ))}
             <div className="px-4 pt-2">
-              <button className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition-colors">
-                Dashboard
-              </button>
+              <NavLink to={`${isLoggedIn ? "/dashboard" : "/login"}`}>
+                <button className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition-colors">
+                  Dashboard
+                </button>
+              </NavLink>
             </div>
           </div>
         )}
@@ -156,8 +158,8 @@ const Navigation = () => {
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const typewriterText = useTypewriter("Loved Child and Parents.", 150);
-  const {isLoggedIn} = useContext(LoginContext)
-  const navigate =  useNavigate()
+  const { isLoggedIn } = useContext(LoginContext);
+  const navigate = useNavigate();
 
   const slides = [
     {
@@ -226,8 +228,8 @@ const HeroSection = () => {
 
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
                 Ensure Safety of your{" "}
-                <span className="relative">
-                  <span className="text-yellow-300 inline-block min-w-[300px] text-left">
+                <span className="relative text-center">
+                  <span className="text-yellow-300 inline-block min-w-[300px]">
                     {typewriterText}
                     <span className="animate-pulse text-yellow-400">|</span>
                   </span>
@@ -245,7 +247,12 @@ const HeroSection = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button onClick={()=> isLoggedIn ? navigate('/dashboard') : navigate('/login')} className="group bg-white text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105 cursor-pointer">
+                <button
+                  onClick={() =>
+                    isLoggedIn ? navigate("/dashboard") : navigate("/login")
+                  }
+                  className="group bg-white text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all duration-300 flex items-center space-x-2 transform hover:scale-105 cursor-pointer"
+                >
                   <span>Start Tracking Now</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -286,7 +293,7 @@ const HeroSection = () => {
 
 // Features Section
 const FeaturesSection = () => {
-  const [ref, isInView] = useInView(0.1);
+  const [ref, isInView] = useInView(0.08);
 
   const features = [
     {
@@ -382,7 +389,7 @@ const FeaturesSection = () => {
 
 // How It Works Section
 const HowItWorksSection = () => {
-  const [ref, isInView] = useInView(0.1);
+  const [ref, isInView] = useInView(0.08);
 
   const steps = [
     {
@@ -476,7 +483,7 @@ const HowItWorksSection = () => {
 
 // // Testimonials Section
 // const TestimonialsSection = () => {
-//   const [ref, isInView] = useInView(0.1);
+//   const [ref, isInView] = useInView(0.08);
 
 //   const testimonials = [
 //     {
@@ -554,7 +561,7 @@ const HowItWorksSection = () => {
 
 // Testimonials Section - Infinite Carousel
 const TestimonialsSection = () => {
-  const [ref, isInView] = useInView(0.1);
+  const [ref, isInView] = useInView(0.08);
 
   const testimonials = [
     {
@@ -801,7 +808,7 @@ const TestimonialsSection = () => {
 };
 
 const PricingSection = () => {
-  const [ref, isInView] = useInView(0.1);
+  const [ref, isInView] = useInView(0.08);
 
   const plans = [
     {
@@ -925,7 +932,7 @@ const PricingSection = () => {
 
 // Contact Section
 const ContactSection = () => {
-  const [ref, isInView] = useInView(0.1);
+  const [ref, isInView] = useInView(0.08);
 
   return (
     <section ref={ref} className="py-20 bg-gray-50" id="contact">
@@ -1046,119 +1053,6 @@ const ContactSection = () => {
         </div>
       </div>
     </section>
-  );
-};
-
-// Footer Component
-const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold">SafeTrack Pro</span>
-            </div>
-            <p className="text-gray-400 leading-relaxed mb-6">
-              Keeping your loved ones safe with advanced GPS tracking technology
-              and real-time monitoring solutions.
-            </p>
-            <div className="flex space-x-4">
-              {["📘", "🐦", "📷", "💼"].map((social, index) => (
-                <button
-                  key={index}
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors duration-300 text-lg"
-                >
-                  {social}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-6">Product</h3>
-            <ul className="space-y-3">
-              {[
-                "Features",
-                "Pricing",
-                "Device Specs",
-                "Mobile Home",
-                "API Documentation",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-6">Support</h3>
-            <ul className="space-y-3">
-              {[
-                "Help Center",
-                "Contact Us",
-                "Device Setup",
-                "Troubleshooting",
-                "User Guide",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-6">Company</h3>
-            <ul className="space-y-3">
-              {[
-                "About Us",
-                "Careers",
-                "Press",
-                "Privacy Policy",
-                "Terms of Service",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-gray-400 hover:text-white transition-colors duration-300"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 mb-4 md:mb-0">
-              © 2025 SafeTrack Pro. All rights reserved.
-            </p>
-            <div className="flex items-center space-x-6">
-              <span className="text-gray-400">🔒 Secure & Private</span>
-              <span className="text-gray-400">⚡ 99.9% Uptime</span>
-              <span className="text-gray-400">🏆 Award Winning</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
   );
 };
 

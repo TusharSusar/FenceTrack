@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SmartGPSDashboard from "./components/SmartGPSDashboard";
 import Home from "./Home";
 import LoginPage from "./components/Login";
+import './App.css';
 
 const router = createBrowserRouter([
   {
